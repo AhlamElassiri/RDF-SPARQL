@@ -1,0 +1,132 @@
+@prefix ex: <http://example.org#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+# Classes
+ex:Maladie rdf:type rdfs:Class .
+ex:Symptome rdf:type rdfs:Class .
+ex:Traitement rdf:type rdfs:Class .
+ex:Specialiste rdf:type rdfs:Class .
+ex:TypeMaladie rdf:type rdfs:Class .
+ex:Region rdf:type rdfs:Class .
+
+# Propriétés
+ex:aSymptome rdf:type rdf:Property ;
+             rdfs:domain ex:Maladie ;
+             rdfs:range ex:Symptome .
+
+ex:aTraitement rdf:type rdf:Property ;
+               rdfs:domain ex:Maladie ;
+               rdfs:range ex:Traitement .
+
+ex:traitePar rdf:type rdf:Property ;
+             rdfs:domain ex:Maladie ;
+             rdfs:range ex:Specialiste .
+
+ex:classification rdf:type rdf:Property ;
+                  rdfs:domain ex:Maladie ;
+                  rdfs:range ex:TypeMaladie .
+
+ex:prevalence rdf:type rdf:Property ;
+              rdfs:domain ex:Maladie ;
+              rdfs:range xsd:decimal .
+
+ex:ageMoyen rdf:type rdf:Property ;
+            rdfs:domain ex:Maladie ;
+            rdfs:range xsd:integer .
+
+ex:affecteRegion rdf:type rdf:Property ;
+                 rdfs:domain ex:Maladie ;
+                 rdfs:range ex:Region .
+
+# Instanciation des données
+## Maladies
+ex:Grippe rdf:type ex:Maladie ;
+          ex:aSymptome ex:Fievre, ex:Toux ;
+          ex:aTraitement ex:Paracetamol, ex:Rehydratation ;
+          ex:traitePar ex:DrDupont ;
+          ex:classification ex:Infectieuse ;
+          ex:prevalence 0.15 ;
+          ex:ageMoyen 30 ;
+          ex:affecteRegion ex:Europe, ex:Afrique .
+
+ex:Diabete rdf:type ex:Maladie ;
+           ex:aSymptome ex:SoifExcessive, ex:Fatigue ;
+           ex:aTraitement ex:Insuline, ex:RegimeAlimentaire ;
+           ex:traitePar ex:DrMartin ;
+           ex:classification ex:Chronique ;
+           ex:prevalence 0.10 ;
+           ex:ageMoyen 45 ;
+           ex:affecteRegion ex:Amerique, ex:Europe .
+
+## Symptômes
+ex:Fievre rdf:type ex:Symptome ;
+          rdfs:label "Fièvre"@fr, "Fever"@en ;
+          ex:description "Augmentation de la température corporelle"@fr, 
+                         "Increase in body temperature"@en .
+
+ex:Toux rdf:type ex:Symptome ;
+        rdfs:label "Toux"@fr, "Cough"@en ;
+        ex:description "Irritation des voies respiratoires"@fr, 
+                       "Respiratory tract irritation"@en .
+
+ex:SoifExcessive rdf:type ex:Symptome ;
+                 rdfs:label "Soif excessive"@fr, "Excessive thirst"@en ;
+                 ex:description "Besoin constant de boire de l'eau"@fr, 
+                                "Constant need to drink water"@en .
+
+ex:Fatigue rdf:type ex:Symptome ;
+           rdfs:label "Fatigue"@fr, "Fatigue"@en ;
+           ex:description "Sensation constante de manque d'énergie"@fr, 
+                          "Constant feeling of low energy"@en .
+
+## Traitements
+ex:Paracetamol rdf:type ex:Traitement ;
+               rdfs:label "Paracétamol"@fr, "Paracetamol"@en ;
+               ex:description "Médicament pour réduire la fièvre et la douleur"@fr, 
+                             "Medication to reduce fever and pain"@en .
+
+ex:Rehydratation rdf:type ex:Traitement ;
+                 rdfs:label "Réhydratation"@fr, "Rehydration"@en ;
+                 ex:description "Réapprovisionnement en liquides pour le corps"@fr, 
+                               "Replenishing fluids for the body"@en .
+
+ex:Insuline rdf:type ex:Traitement ;
+            rdfs:label "Insuline"@fr, "Insulin"@en ;
+            ex:description "Injection d'insuline pour réguler la glycémie"@fr, 
+                          "Insulin injection to regulate blood sugar"@en .
+
+ex:RegimeAlimentaire rdf:type ex:Traitement ;
+                     rdfs:label "Régime alimentaire"@fr, "Dietary plan"@en ;
+                     ex:description "Adaptation de l'alimentation pour contrôler la maladie"@fr, 
+                                   "Adaptation of diet to control the disease"@en .
+
+## Spécialistes
+ex:DrDupont rdf:type ex:Specialiste ;
+            rdfs:label "Dr Dupont"@fr, "Dr. Dupont"@en ;
+            ex:description "Spécialiste en maladies infectieuses"@fr, 
+                          "Specialist in infectious diseases"@en .
+
+ex:DrMartin rdf:type ex:Specialiste ;
+            rdfs:label "Dr Martin"@fr, "Dr. Martin"@en ;
+            ex:description "Spécialiste en endocrinologie"@fr, 
+                          "Specialist in endocrinology"@en .
+
+## Types de maladies
+ex:Infectieuse rdf:type ex:TypeMaladie ;
+               rdfs:label "Infectieuse"@fr, "Infectious"@en .
+
+ex:Chronique rdf:type ex:TypeMaladie ;
+             rdfs:label "Chronique"@fr, "Chronic"@en .
+
+## Régions
+ex:Europe rdf:type ex:Region ;
+          rdfs:label "Europe"@fr, "Europe"@en .
+
+ex:Afrique rdf:type ex:Region ;
+           rdfs:label "Afrique"@fr, "Africa"@en .
+
+ex:Amerique rdf:type ex:Region ;
+            rdfs:label "Amérique"@fr, "America"@en .

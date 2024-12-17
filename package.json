@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "sparql-client-2": "^0.6.3",
+    "sparqljs": "^3.7.3"
+  }
+}
