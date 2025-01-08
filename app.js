@@ -44,36 +44,68 @@ function formatURI(uri) {
 }
 
 function displayGraph(bindings) {
-    console.log(bindings);
-    // Créer les nœuds et les arêtes
+    console.log("Bindings:", bindings);
     const nodes = [];
-    const edges = [];
+    const edges = new Set(); // Use a Set to avoid duplicate edges
 
     bindings.forEach((row) => {
-        // Exemple : Ajouter des nœuds et relations pour maladies et symptômes
-        if (row.maladie && row.symptome) {
-            nodes.push({ id: formatURI(row.maladie.value), label: formatURI(row.maladie.value), group: 'maladie' });
-            nodes.push({ id: formatURI(row.symptome.value), label: formatURI(row.symptome.value), group: 'symptome' });
-            edges.push({ from: formatURI(row.maladie.value), to: formatURI(row.symptome.value) });
-        }
+        const subjectFormatted = row.maladie ? formatURI(row.maladie.value) : null;
 
-        // Ajouter des relations pour spécialistes
-        if (row.maladie && row.specialiste) {
-            nodes.push({ id: formatURI(row.specialiste.value), label: formatURI(row.specialiste.value), group: 'specialiste' });
-            edges.push({ from: formatURI(row.maladie.value), to: formatURI(row.specialiste.value) });
-        }
+        // Loop through each property in the row and create nodes
+        Object.keys(row).forEach((key) => {
+            const value = row[key].value;
+            const formattedValue = formatURI(value);
+
+            // Add the current value as a node if not already present
+            if (!nodes.find((n) => n.id === formattedValue)) {
+                nodes.push({
+                    id: formattedValue,
+                    label: formattedValue,
+                    group: key, // Group by type (maladie, symptome, traitement, etc.)
+                });
+            }
+
+            // Create edges for relationships
+            if (subjectFormatted && key !== "subject") {
+                const edge = {
+                    from: subjectFormatted,
+                    to: formattedValue,
+                    label: key, // Label for the edge is based on the property key
+                };
+
+                // Ensure the edge is unique
+                if (![...edges].some(e => e.from === edge.from && e.to === edge.to && e.label === edge.label)) {
+                    edges.add(edge);
+                }
+            }
+        });
     });
 
-    // Supprimer les doublons
+    console.log("Nodes:", nodes);
+    console.log("Edges:", [...edges]);
+
+    // Convert edges to an array for Vis.js
+    const uniqueEdges = [...edges];
+
+    // Remove duplicate nodes
     const uniqueNodes = Array.from(new Map(nodes.map(node => [node.id, node])).values());
 
-    // Initialiser le graphe avec Vis.js
+    // Initialize the graph with Vis.js
     const container = document.getElementById('graphContainer');
-    const data = { nodes: new vis.DataSet(uniqueNodes), edges: new vis.DataSet(edges) };
-    const options = { nodes: { shape: 'dot', size: 10 }, edges: { arrows: 'to' } };
+    const data = {
+        nodes: new vis.DataSet(uniqueNodes),
+        edges: new vis.DataSet(uniqueEdges),
+    };
+    const options = {
+        nodes: { shape: 'dot', size: 10 },
+        edges: { arrows: { to: { enabled: true } }, font: { align: 'top' } },
+        physics: { enabled: true }, // Enables dynamic layout
+    };
 
     new vis.Network(container, data, options);
 }
+
+
 
 
 document.getElementById("queryForm").addEventListener("submit", async function (event) {
