@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:ex="http://example.org#">
+<owl:Class rdf:about="http://example.org#Maladie"/>
+<owl:Class rdf:about="http://example.org#Symptome"/>
+<owl:Class rdf:about="http://example.org#Traitement"/>
+<owl:Class rdf:about="http://example.org#Specialiste"/>
+<owl:Class rdf:about="http://example.org#TypeMaladie"/>
+<owl:Class rdf:about="http://example.org#Region"/>
+
+
+<owl:ObjectProperty rdf:about="http://example.org#aSymptome">
+    <rdfs:domain rdf:resource="http://example.org#Maladie"/>
+    <rdfs:range rdf:resource="http://example.org#Symptome"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="http://example.org#aTraitement">
+    <rdfs:domain rdf:resource="http://example.org#Maladie"/>
+    <rdfs:range rdf:resource="http://example.org#Traitement"/>
+</owl:ObjectProperty>
+<owl:DatatypeProperty rdf:about="http://example.org#prevalence">
+    <rdfs:domain rdf:resource="http://example.org#Maladie"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="http://example.org#ageMoyen">
+    <rdfs:domain rdf:resource="http://example.org#Maladie"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+</owl:DatatypeProperty>
+
+
+<owl:NamedIndividual rdf:about="http://example.org#Grippe">
+    <rdf:type rdf:resource="http://example.org#Maladie"/>
+    <ex:aSymptome rdf:resource="http://example.org#Fievre"/>
+    <ex:aSymptome rdf:resource="http://example.org#Toux"/>
+    <ex:aTraitement rdf:resource="http://example.org#Paracetamol"/>
+    <ex:traitePar rdf:resource="http://example.org#DrDupont"/>
+    <ex:prevalence rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.15</ex:prevalence>
+    <ex:ageMoyen rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</ex:ageMoyen>
+</owl:NamedIndividual>
+
+
+<owl:NamedIndividual rdf:about="http://example.org#Fievre">
+    <rdf:type rdf:resource="http://example.org#Symptome"/>
+    <rdfs:label xml:lang="fr">Fièvre</rdfs:label>
+    <rdfs:label xml:lang="en">Fever</rdfs:label>
+    <ex:description xml:lang="fr">Augmentation de la température corporelle</ex:description>
+    <ex:description xml:lang="en">Increase in body temperature</ex:description>
+</owl:NamedIndividual>
+
+</rdf:RDF>
