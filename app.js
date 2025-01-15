@@ -6,7 +6,7 @@ async function fetchSPARQL(endpoint, query) {
             "Content-Type": "application/x-www-form-urlencoded",  // Updated to URL-encoded
             "Accept": "application/json",
         },
-        body: `query=${encodedQuery}`,  // Query encoded in the body
+        body: `query=${encodedQuery}`,  // Corrected to properly format the body
     });
 
     if (!response.ok) {
@@ -15,6 +15,7 @@ async function fetchSPARQL(endpoint, query) {
 
     return await response.json();
 }
+
 // function drawGraph(bindings) {
 //     const nodes = [];
 //     const edges = [];
